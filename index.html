@@ -57,5 +57,31 @@ En esta página encontraras diferente información relacionada con este hermoso 
     <footer>
         <p>Yo Amo Roldanillo - Rolda-Pro - RoldanilloPro @Copyright 2024</p>
         <p>correo: investigacionydesarrollo@roldapro.com</p></footer>
+
+        <script>
+            async function obtenerPrecio(simbolo, idElemento){
+                try {
+                    const response = await fetch(`https://api.gold-api.com/price/${simbolo}`);
+                    const data = await response.json();
+    
+                    if(data.price){
+                        document.getElementById(idElemento).innerText = `$${data.price.toFixed(2)} USD`;
+                    }else{
+                        document.getElementById(idElemento).innerText = 'Error';
+                    }
+                } catch (error) {
+                    document.getElementById(idElemento).innerText = 'Sin conexión';
+                }
+            }
+    
+            function actualizarPrecios(){
+                obtenerPrecio('XAU', 'precio-oro');
+                obtenerPrecio('XAG', 'precio-plata');
+                obtenerPrecio('BTC', 'precio-btc');
+            }
+    
+            actualizarPrecios();
+            setInterval(actualizarPrecios, 60000); // actualiza cada 60 segundos
+        </script>
 </body>
 </html>
